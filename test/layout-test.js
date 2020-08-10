@@ -208,8 +208,8 @@ describe("layout", function() {
       g.setNode(v, { width: 50, height: 50 });
     });
     g.setPath(["a", "b", "c", "d"]);
-    g.setEdge("a", "x", { weight: 100 });
-    g.setEdge("y", "d", { weight: 100 });
+    g.setEdge("a", "x", { weight: 2 });
+    g.setEdge("y", "d", { weight: 2 });
     g.setParent("x", "sg");
     g.setParent("y", "sg");
 

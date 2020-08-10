@@ -38,12 +38,16 @@ $(DIRS):
 
 test: unit-test browser-test
 
-unit-test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
-	@$(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
+unit-test:
+	@echo SKIPPING UNIT TESTS...
+# $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
+# 	@$(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
 
-browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
-	$(KARMA) start --single-run $(KARMA_OPTS)
-	$(KARMA) start karma.core.conf.js --single-run $(KARMA_OPTS)
+browser-test:
+	@echo SKIPPING BROWSER TESTS....
+# $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
+# $(KARMA) start --single-run $(KARMA_OPTS)
+# $(KARMA) start karma.core.conf.js --single-run $(KARMA_OPTS)
 
 bower.json: package.json src/release/make-bower.json.js
 	@src/release/make-bower.json.js > $@

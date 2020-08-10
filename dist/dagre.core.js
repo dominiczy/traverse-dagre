@@ -311,6 +311,7 @@ function debugOrdering(g) {
 }
 
 },{"./graphlib":7,"./lodash":10,"./util":29}],7:[function(require,module,exports){
+// eslint-disable-next-line no-redeclare
 /* global window */
 
 var graphlib;
@@ -471,11 +472,13 @@ module.exports = layout;
 
 function layout(g, opts) {
   var time = opts && opts.debugTiming ? util.time : util.notime;
-  time("layout", function() {
+  return time("layout", function() {
     var layoutGraph = 
       time("  buildLayoutGraph", function() { return buildLayoutGraph(g); });
     time("  runLayout",        function() { runLayout(layoutGraph, time); });
-    time("  updateInputGraph", function() { updateInputGraph(g, layoutGraph); });
+    // return new graph instead of updating original
+    // time("  updateInputGraph", function() { updateInputGraph(g, layoutGraph); });
+    return layoutGraph;
   });
 }
 
@@ -506,7 +509,9 @@ function runLayout(g, time) {
   time("    translateGraph",         function() { translateGraph(g); });
   time("    assignNodeIntersects",   function() { assignNodeIntersects(g); });
   time("    reversePoints",          function() { reversePointsForReversedEdges(g); });
-  time("    acyclic.undo",           function() { acyclic.undo(g); });
+  // console.log(`g with ranks and no cycles, real successors and predecessors`, g);
+  // Do not undo breaking cycles
+  // time("    acyclic.undo",           function() { acyclic.undo(g); });
 }
 
 /*
@@ -523,6 +528,8 @@ function updateInputGraph(inputGraph, layoutGraph) {
     if (inputLabel) {
       inputLabel.x = layoutLabel.x;
       inputLabel.y = layoutLabel.y;
+      inputLabel.rank = layoutLabel.rank;
+      inputLabel.order = layoutLabel.order;
 
       if (layoutGraph.children(v).length) {
         inputLabel.width = layoutLabel.width;
@@ -844,6 +851,7 @@ function canonicalize(attrs) {
 }
 
 },{"./acyclic":2,"./add-border-segments":3,"./coordinate-system":4,"./graphlib":7,"./lodash":10,"./nesting-graph":11,"./normalize":12,"./order":17,"./parent-dummy-chains":22,"./position":24,"./rank":26,"./util":29}],10:[function(require,module,exports){
+// eslint-disable-next-line no-redeclare
 /* global window */
 
 var lodash;
@@ -2464,6 +2472,7 @@ networkSimplex.exchangeEdges = exchangeEdges;
  */
 function networkSimplex(g) {
   g = simplify(g);
+
   initRank(g);
   var t = feasibleTree(g);
   initLowLimValues(t);
@@ -2950,7 +2959,7 @@ function notime(name, fn) {
 }
 
 },{"./graphlib":7,"./lodash":10}],30:[function(require,module,exports){
-module.exports = "0.8.5";
+module.exports = "0.8.7";
 
 },{}]},{},[1])(1)
 });
