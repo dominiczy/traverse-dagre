@@ -1,6 +1,6 @@
 {
   "name": "traverse-dagre",
-  "version": "0.8.7",
+  "version": "0.8.8-pre",
   "description": "Graph layout for JavaScript",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "contributors": [
